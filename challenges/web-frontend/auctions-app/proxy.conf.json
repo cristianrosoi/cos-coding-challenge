@@ -1,0 +1,10 @@
+{
+  "/api": {
+    "target": "https://api-core-dev.caronsale.de/api/v1",
+    "secure": false,
+    "pathRewrite": {
+      "^/api": ""
+    },
+    "changeOrigin": true
+  }
+}
