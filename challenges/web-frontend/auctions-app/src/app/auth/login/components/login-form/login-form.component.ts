@@ -1,4 +1,5 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoginForm } from './../../../../shared/models/login-form';
 
@@ -8,6 +9,7 @@ import { LoginForm } from './../../../../shared/models/login-form';
   styleUrls: ['./login-form.component.scss']
 })
 export class LoginFormComponent implements OnInit {
+  @Input() error: HttpErrorResponse | null = null;
   @Output() submitForm = new EventEmitter<LoginForm>();
 
   loginForm: FormGroup;
