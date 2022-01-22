@@ -2,7 +2,21 @@
   <mat-toolbar color="primary">
     <span class="title" [routerLink]="['/']">Auction app</span>
     <span class="example-spacer"></span>
-    <button mat-button aria-label="Login button" [routerLink]="['/login']">
+    <button
+      *ngIf="isLoggedIn$ | async"
+      mat-button
+      aria-label="Logout button"
+      (click)="onLogout()"
+    >
+      Logout
+    </button>
+
+    <button
+      *ngIf="!(isLoggedIn$ | async)"
+      mat-button
+      aria-label="Logout button"
+      (click)="onLogout()"
+    >
       Login
     </button>
   </mat-toolbar>

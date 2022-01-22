@@ -13,6 +13,7 @@ export class LoginFormComponent implements OnInit {
   @Output() submitForm = new EventEmitter<LoginForm>();
 
   loginForm: FormGroup;
+  isSubmitted = false;
 
   constructor(private fb: FormBuilder) {
     this.loginForm = this.initForm();
@@ -22,9 +23,13 @@ export class LoginFormComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.resetFormError();
+
     if (this.loginForm.valid) {
+      this.isSubmitted = true;
       this.submitForm.emit(this.loginForm.value);
     } else {
+      this.isSubmitted = false;
       this.loginForm.markAllAsTouched();
     }
   }
@@ -36,6 +41,10 @@ export class LoginFormComponent implements OnInit {
     });
 
     return form;
+  }
+
+  private resetFormError(): void {
+    this.error = null;
   }
 
 }

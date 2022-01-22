@@ -1,16 +1,21 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { Login, LoginForm } from '../../../shared/models/login-form';
 import { environment } from './../../../../environments/environment';
-import { Logout } from './../../../shared/models/login-form';
+import { Logout, TokenManagement } from './../../../shared/models/login-form';
 import { Token } from './../../../shared/models/token';
 
-@Injectable()
-export class AuthService implements Login, Logout {
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthService implements Login, Logout, TokenManagement {
 
   private static readonly url = environment.endpoints.authentication;
+  
+  isLoggedIn = new BehaviorSubject<boolean>(false);
+  isLoggedIn$ = this.isLoggedIn.asObservable();
   
   private tokenObject: Token | null = null;
 
@@ -20,7 +25,7 @@ export class AuthService implements Login, Logout {
     return this.tokenObject;
   }
 
-  set newToken(token: Token) {
+  set newToken(token: Token | null) {
     this.tokenObject = token;
   }
 
@@ -35,13 +40,51 @@ export class AuthService implements Login, Logout {
     return this.verifyEmail(mailAddress).pipe(
       switchMap(() => {
         return this.http.put<Token>(url, body).pipe(
-          tap((token: Token) => this.newToken = token)
+          tap((token: Token) => {
+            this.newToken = token;
+            this.isLoggedIn.next(true);
+            this.saveToken(token);
+          })
         );
       })
     )
   }
 
-  logout(): void {}
+  checkToken(credentials: LoginForm): Observable<Token> {
+    const token: Token | null = this.loadToken();
+    
+    if (token) {
+      this.newToken = token;
+      return of(token);
+    } else {
+      return this.login(credentials);
+    }
+  }
+
+  logout(): void {
+    this.newToken = null;
+    this.isLoggedIn.next(false);
+    this.removeToken();
+  }
+
+  saveToken(token: Token): void {
+    if (token) {
+      sessionStorage.setItem('token', JSON.stringify(token));
+    }
+  }
+
+  loadToken(): Token | null {
+    const serializedToken: string | null = sessionStorage.getItem('token');
+    if (serializedToken) {
+      return JSON.parse(serializedToken);
+    }
+
+    return null;
+  }
+
+  removeToken(): void {
+    sessionStorage.clear();
+  }
 
   private verifyEmail(mailAddress: string): Observable<void> {
     const url = `${AuthService.url}/${mailAddress}/registered`;

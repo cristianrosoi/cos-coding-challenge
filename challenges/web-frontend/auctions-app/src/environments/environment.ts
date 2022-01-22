@@ -5,7 +5,10 @@
 export const environment = {
   production: false,
   endpoints: {
-    authentication: '/api/authentication'
+    authentication: '/api/authentication',
+    seller: {
+      auction: '/api/auction/buyer'
+    }
   }
 };
 

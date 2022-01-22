@@ -1,3 +1,6 @@
+<div *ngIf="isSubmitted && loginForm.valid && !error" class="progress-bar">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
   <h2>Salesman Login</h2>
 
@@ -11,7 +14,9 @@
     <input type="password" formControlName="password" matInput placeholder="********" value="">
   </mat-form-field>
 
-  <button mat-raised-button color="accent">Login</button>
+  <button mat-raised-button color="accent">
+    <ng-container>Login</ng-container>
+  </button>
 
   <div *ngIf="error" class="error">Invalid credentials</div>
 </form>

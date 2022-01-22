@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(credentials: LoginForm) {
-    this.authService.login(credentials)
+    this.authService.checkToken(credentials)
       .pipe(
         catchError((error: HttpErrorResponse) => {
           this.error = error;
