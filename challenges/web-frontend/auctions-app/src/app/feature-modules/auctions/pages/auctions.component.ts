@@ -1,4 +1,6 @@
+import { Auction } from './../../../shared/models/auction';
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { AuthService } from './../../../auth/login/services/auth.service';
 import { AuctionService } from './../../../core/services/auction.service';
 
@@ -9,7 +11,11 @@ import { AuctionService } from './../../../core/services/auction.service';
 })
 export class AuctionsComponent implements OnInit {
 
-  constructor(private auctionService: AuctionService, private authService: AuthService) { }
+  auction$: Observable<Auction>;
+
+  constructor(private auctionService: AuctionService, private authService: AuthService) {
+    this.auction$ = this.auctionService.getAuctions();
+  }
 
   ngOnInit(): void {
     this.auctionService.getAuctions()

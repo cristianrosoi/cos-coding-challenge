@@ -1,0 +1,10 @@
+.auction {
+  display: flex;
+  flex-wrap: wrap;
+
+  &__card {
+    width: 340px;
+    height: auto;
+    margin: 1rem;
+  }
+}

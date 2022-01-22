@@ -16,7 +16,7 @@ export class AuctionService {
   getAuctions(): Observable<Auction> {
     const url = `${AuctionService.url}`;
     let params = new HttpParams();
-    params = params.set('filter', `{"limit": 10}`);
+    params = params.set('filter', `{}`);
     params = params.set('count', false);
     
     return this.http.get<Auction>(url, { params });

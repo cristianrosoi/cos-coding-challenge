@@ -1,0 +1,39 @@
+<mat-card *ngIf="item.id">
+  <mat-card-title>{{ item.label }}</mat-card-title>
+  <mat-card-subtitle>{{ item.currentHighestBidValue }} Euro</mat-card-subtitle>
+  <img mat-card-image [src]="item.associatedVehicle.vehicleImages[0].url" />
+  <mat-card-content>
+    <div class="row">
+      <div class="col-1">
+        <p>
+          <strong>Erstzulassung:</strong> {{ item.associatedVehicle.ez }}
+        </p>
+        <p>
+          <strong>Mileage:</strong> {{ item.associatedVehicle.mileageInKm }} km
+        </p>
+      </div>
+      <div class="col-2">
+        <p>
+          <strong>Fuel type: </strong> {{ item.associatedVehicle.fuelType | fuelType }}
+        </p>
+        <p>
+          <strong>Transmission: </strong> {{ item.associatedVehicle.transmission }}
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-1">
+        <p>
+          <strong>Remaining time: </strong> {{ item.remainingTimeInSeconds * 1000 | date:'hh:mm:ss' }}
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <p>
+        <strong>am I the highest bidder: </strong> {{ item.amIHighestBidder ? 'Ja' : 'Nein' }}
+      </p>
+    </div>
+  </mat-card-content>
+  <mat-card-footer>
+  </mat-card-footer>
+</mat-card>

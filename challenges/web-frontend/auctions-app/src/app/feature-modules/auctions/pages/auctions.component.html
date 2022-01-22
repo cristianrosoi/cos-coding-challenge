@@ -1,3 +1,7 @@
 <div class="container">
-  <p>auctions works!</p>
+  <div class="auction" *ngIf="(auction$ | async) as auction">
+    <div class="auction__card" *ngFor="let item of auction.items">
+      <app-auction-card [item]="item"></app-auction-card>
+    </div>
+  </div>
 </div>
