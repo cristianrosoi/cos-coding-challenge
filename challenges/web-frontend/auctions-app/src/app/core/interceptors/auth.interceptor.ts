@@ -13,6 +13,7 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const tokenObject: Token | null = this.authService.token;
     if (tokenObject) {
+      console.log('USER ID IS:', tokenObject.userId);
       req = req.clone({ headers: req.headers.set('userid', tokenObject.userId) });
       req = req.clone({ headers: req.headers.set('authtoken', tokenObject.token) });
     }

@@ -5,9 +5,9 @@
 export const environment = {
   production: false,
   endpoints: {
-    authentication: '/api/authentication',
+    authentication: '/api/v1/authentication',
     seller: {
-      auction: '/api/auction/buyer'
+      auction: '/api/v2/auction/buyer/'
     }
   }
 };

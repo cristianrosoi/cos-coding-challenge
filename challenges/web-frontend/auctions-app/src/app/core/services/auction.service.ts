@@ -1,5 +1,7 @@
+import { Auction } from './../../shared/models/auction';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { environment } from './../../../environments/environment';
 
 @Injectable({
@@ -11,12 +13,12 @@ export class AuctionService {
 
   constructor(private http: HttpClient) { }
 
-  getAuctions() {
+  getAuctions(): Observable<Auction> {
     const url = `${AuctionService.url}`;
     let params = new HttpParams();
-    params = params.set('filter', 'isLive');
-    params = params.set('count', true);
+    params = params.set('filter', `{"limit": 10}`);
+    params = params.set('count', false);
     
-    return this.http.get(url, { params });
+    return this.http.get<Auction>(url, { params });
   }
 }
