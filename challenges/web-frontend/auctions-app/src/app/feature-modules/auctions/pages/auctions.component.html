@@ -1,7 +1,11 @@
 <div class="container">
-  <div class="auction" *ngIf="(auction$ | async) as auction">
+  <div class="auction" *ngIf="(auction$ | async) as auction; else loadingTemplate">
     <div class="auction__card" *ngFor="let item of auction.items">
       <app-auction-card [item]="item"></app-auction-card>
     </div>
   </div>
 </div>
+
+<ng-template #loadingTemplate>
+  Loading...
+</ng-template>
