@@ -1,6 +1,6 @@
 <mat-card *ngIf="item.id">
   <mat-card-title>{{ item.label }}</mat-card-title>
-  <mat-card-subtitle>{{ item.currentHighestBidValue }} Euro</mat-card-subtitle>
+  <mat-card-subtitle><strong>{{ item.currentHighestBidValue | currency: 'EUR':'symbol' }}</strong></mat-card-subtitle>
   <img mat-card-image [src]="item.associatedVehicle.vehicleImages[0].url" />
   <mat-card-content>
     <div class="row">
@@ -12,12 +12,14 @@
           <strong>Mileage:</strong> {{ item.associatedVehicle.mileageInKm }} km
         </p>
       </div>
-      <div class="col-2">
+    </div>
+    <div class="row">
+      <div class="col-1">
         <p>
           <strong>Fuel type: </strong> {{ item.associatedVehicle.fuelType | fuelType }}
         </p>
         <p>
-          <strong>Transmission: </strong> {{ item.associatedVehicle.transmission }}
+          <strong>Transmission: </strong> {{ item.associatedVehicle.transmission | transmissionType }}
         </p>
       </div>
     </div>

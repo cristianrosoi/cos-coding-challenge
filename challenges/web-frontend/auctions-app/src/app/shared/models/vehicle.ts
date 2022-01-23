@@ -14,6 +14,15 @@ export interface VehicleImages {
 }
 
 export const FuelType: any = {
+  '-1': 'N/A',
   '0': 'Petrol',
-  '1': 'Diesel'
+  '1': 'Diesel',
+  '2': 'Hybrid',
+  '3': 'Electric'
+}
+
+export const TransmisionType: any = {
+  '-1': 'N/A',
+  '0': 'Automatic',
+  '1': 'Manual'
 }
