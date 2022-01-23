@@ -13,11 +13,11 @@ export class AuctionService {
 
   constructor(private http: HttpClient) { }
 
-  getAuctions(): Observable<Auction> {
+  getAuctions(filter = '{}', count = false): Observable<Auction> {
     const url = `${AuctionService.url}`;
     let params = new HttpParams();
-    params = params.set('filter', `{}`);
-    params = params.set('count', false);
+    params = params.set('filter', filter);
+    params = params.set('count', count);
     
     return this.http.get<Auction>(url, { params });
   }

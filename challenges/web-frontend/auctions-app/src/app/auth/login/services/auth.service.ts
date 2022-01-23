@@ -1,12 +1,12 @@
-import { RoleService } from './../../../core/services/role.service';
-import { Role } from './../../../shared/models/roles';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { Login, LoginForm } from '../../../shared/models/login-form';
 import { environment } from './../../../../environments/environment';
+import { RoleService } from './../../../core/services/role.service';
 import { Logout, TokenManagement } from './../../../shared/models/login-form';
+import { Role } from './../../../shared/models/roles';
 import { Token } from './../../../shared/models/token';
 
 @Injectable({
@@ -40,16 +40,7 @@ export class AuthService implements Login, Logout, TokenManagement {
     }
 
     return this.verifyEmail(mailAddress).pipe(
-      switchMap(() => {
-        return this.http.put<Token>(url, body).pipe(
-          tap((token: Token) => {
-            this.newToken = token;
-            this.isLoggedIn.next(true);
-            this.saveToken(token);
-            this.getRole(token);
-          })
-        );
-      })
+      switchMap(() => this.getToken(url, body))
     )
   }
 
@@ -101,6 +92,21 @@ export class AuthService implements Login, Logout, TokenManagement {
     }
 
     return Role.Unknown;
+  }
+
+  private getToken(url: string, body: { password: string; meta: string; }): Observable<Token> {
+    return this.http.put<Token>(url, body).pipe(
+      tap((token: Token) => {
+        this.manageToken(token);
+      })
+    );
+  }
+
+  private manageToken(token: Token) {
+    this.newToken = token;
+    this.isLoggedIn.next(true);
+    this.saveToken(token);
+    this.getRole(token);
   }
 }
 
