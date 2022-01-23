@@ -1,6 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { AuthService } from 'src/app/auth/login/services/auth.service';
 import { AppComponent } from './app.component';
+import { RoleService } from './core/services/role.service';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -11,6 +13,16 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent
       ],
+      providers: [
+        {
+          provide: AuthService,
+          useValue: jasmine.createSpyObj('AuthService', ['loadToken'], ['isLoggedIn$', 'newToken'])
+        },
+        {
+          provide: RoleService,
+          useValue: jasmine.createSpyObj('RoleService', ['getRoles'])
+        }
+      ]
     }).compileComponents();
   });
 

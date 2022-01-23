@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoginForm } from './../../../../shared/models/login-form';
 
@@ -8,7 +8,7 @@ import { LoginForm } from './../../../../shared/models/login-form';
   templateUrl: './login-form.component.html',
   styleUrls: ['./login-form.component.scss']
 })
-export class LoginFormComponent implements OnInit {
+export class LoginFormComponent {
   @Input() error: HttpErrorResponse | null = null;
   @Output() submitForm = new EventEmitter<LoginForm>();
 
@@ -19,19 +19,24 @@ export class LoginFormComponent implements OnInit {
     this.loginForm = this.initForm();
   }
 
-  ngOnInit(): void {
-  }
-
   onSubmit(): void {
     this.resetFormError();
 
     if (this.loginForm.valid) {
-      this.isSubmitted = true;
-      this.submitForm.emit(this.loginForm.value);
+      this.submitFormData();
     } else {
-      this.isSubmitted = false;
-      this.loginForm.markAllAsTouched();
+      this.validateForm();
     }
+  }
+
+  private validateForm(): void {
+    this.isSubmitted = false;
+    this.loginForm.markAllAsTouched();
+  }
+
+  private submitFormData(): void {
+    this.isSubmitted = true;
+    this.submitForm.emit(this.loginForm.value);
   }
 
   private initForm(): FormGroup {

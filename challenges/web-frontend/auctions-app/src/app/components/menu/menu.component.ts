@@ -1,18 +1,16 @@
-import { RoleService } from './../../core/services/role.service';
-import { Token } from './../../shared/models/token';
-import { Role } from './../../shared/models/roles';
-import { AuthService } from 'src/app/auth/login/services/auth.service';
-import { Component, OnInit } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { AuthService } from 'src/app/auth/login/services/auth.service';
+import { RoleService } from './../../core/services/role.service';
+import { Role } from './../../shared/models/roles';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss']
 })
-export class MenuComponent implements OnInit {
+export class MenuComponent {
 
   isLoggedIn$: Observable<boolean>;
   role$: Observable<Role>;
@@ -20,10 +18,7 @@ export class MenuComponent implements OnInit {
 
   constructor(private authService: AuthService, private router: Router, private roleService: RoleService) {
     this.isLoggedIn$ = this.authService.isLoggedIn$;
-    this.role$ = this.roleService.role$.pipe(tap((role: Role) => console.log('menu role', role)));
-  }
-
-  ngOnInit(): void {
+    this.role$ = this.roleService.role$;
   }
 
   onLogout(): void {

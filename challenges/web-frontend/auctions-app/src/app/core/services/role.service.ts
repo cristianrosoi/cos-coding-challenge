@@ -29,4 +29,8 @@ export class RoleService {
         return Role.Unknown
     }
   }
+
+  reset(): void {
+    this.role.next(Role.Unknown);
+  }
 }

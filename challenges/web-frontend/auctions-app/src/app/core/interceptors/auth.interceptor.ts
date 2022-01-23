@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/login/services/auth.service';
+import { environment } from './../../../environments/environment';
 import { Token } from './../../shared/models/token';
 
 @Injectable()
@@ -27,7 +28,9 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       map((event: HttpEvent<any>) => {
         if (event instanceof HttpResponse) {
-          console.log('event--->>>', event);
+          if (!environment.production) {
+            console.log('event--->>>', event);
+          }
         }
         return event;
       })

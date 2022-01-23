@@ -59,6 +59,7 @@ export class AuthService implements Login, Logout, TokenManagement {
   logout(): void {
     this.newToken = null;
     this.isLoggedIn.next(false);
+    this.roleService.reset();
     this.removeToken();
   }
 

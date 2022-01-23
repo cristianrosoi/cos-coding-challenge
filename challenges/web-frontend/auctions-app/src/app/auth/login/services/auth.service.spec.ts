@@ -1,15 +1,16 @@
-import { Token } from './../../../shared/models/token';
-import { LoginForm } from './../../../shared/models/login-form';
-import { RoleService } from './../../../core/services/role.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { fakeAsync, flushMicrotasks, TestBed } from '@angular/core/testing';
-import { AuthService } from './auth.service';
 import { of } from 'rxjs';
+import { RoleService } from './../../../core/services/role.service';
+import { LoginForm } from './../../../shared/models/login-form';
+import { Token } from './../../../shared/models/token';
+import { AuthService } from './auth.service';
 
 
 describe('AuthService', () => {
   let service: AuthService;
   let httpMock: HttpTestingController;
+  let roleService: RoleService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -17,12 +18,13 @@ describe('AuthService', () => {
       providers: [
         {
           provide: RoleService,
-          useValue: jasmine.createSpyObj('RoleService', ['getRole'])
+          useValue: jasmine.createSpyObj('RoleService', ['getRole', 'reset'])
         }
       ]
     });
     service = TestBed.inject(AuthService);
     httpMock = TestBed.inject(HttpTestingController);
+    roleService = TestBed.inject(RoleService);
   });
 
   it('should be created', () => {
@@ -86,6 +88,14 @@ describe('AuthService', () => {
     expect(removeSpy).toHaveBeenCalled();
     expect(isLoggedInSpy).toHaveBeenCalledOnceWith(false);
     expect(service.token).toBeNull();
+  });
+
+  it('should reset role on logout', () => {
+    const spy = roleService.reset = jasmine.createSpy();
+
+    service.logout();
+
+    expect(spy).toHaveBeenCalled();
   });
 
   it('should persist the token in session storage', () => {

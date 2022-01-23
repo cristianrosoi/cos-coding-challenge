@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AuthService } from 'src/app/auth/login/services/auth.service';
 import { RoleService } from './../../core/services/role.service';
 import { Role } from './../../shared/models/roles';
 
@@ -9,16 +8,13 @@ import { Role } from './../../shared/models/roles';
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.scss']
 })
-export class HomePageComponent implements OnInit {
+export class HomePageComponent {
 
   role$: Observable<Role>;
   roles = Role;
 
-  constructor(private authService: AuthService, private roleService: RoleService) {
+  constructor(private roleService: RoleService) {
     this.role$ = this.roleService.role$;
-  }
-
-  ngOnInit(): void {
   }
 
 }
