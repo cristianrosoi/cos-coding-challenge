@@ -1,3 +1,4 @@
+import { RoleService } from './core/services/role.service';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/auth/login/services/auth.service';
 import { Token } from './shared/models/token';
@@ -9,7 +10,7 @@ import { Token } from './shared/models/token';
 })
 export class AppComponent implements OnInit {
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private roleService: RoleService) {}
 
   ngOnInit(): void {
     this.loadToken();
@@ -21,6 +22,7 @@ export class AppComponent implements OnInit {
     if (token) {
       this.authService.newToken = token;
       this.authService.isLoggedIn.next(this.authService.token?.authenticated || false);
+      this.roleService.getRole(token);
     }
   }
 }

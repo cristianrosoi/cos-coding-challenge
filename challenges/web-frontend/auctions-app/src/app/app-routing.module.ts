@@ -1,3 +1,4 @@
+import { SalesmanGuard } from './core/guards/salesman.guard';
 import { LoggedinGuard } from './core/guards/loggedin.guard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -12,6 +13,11 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
+    path: 'home',
+    canActivate: [AuthGuard],
+    component: HomePageComponent
+  },
+  {
     path: 'login',
     canActivate: [LoggedinGuard],
     loadChildren: () =>
@@ -19,7 +25,7 @@ const routes: Routes = [
   },
   {
     path: 'overview',
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, SalesmanGuard],
     loadChildren: () =>
       import('./feature-modules/auctions/auctions.module').then(
         (m) => m.AuctionsModule

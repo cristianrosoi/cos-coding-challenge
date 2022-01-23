@@ -1,3 +1,5 @@
+import { RoleService } from './../../../core/services/role.service';
+import { Role } from './../../../shared/models/roles';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -19,7 +21,7 @@ export class AuthService implements Login, Logout, TokenManagement {
   
   private tokenObject: Token | null = null;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private roleService: RoleService) { }
 
   get token(): Token | null {
     return this.tokenObject;
@@ -44,6 +46,7 @@ export class AuthService implements Login, Logout, TokenManagement {
             this.newToken = token;
             this.isLoggedIn.next(true);
             this.saveToken(token);
+            this.getRole(token);
           })
         );
       })
@@ -55,6 +58,7 @@ export class AuthService implements Login, Logout, TokenManagement {
     
     if (token) {
       this.newToken = token;
+      this.getRole(token);
       return of(token);
     } else {
       return this.login(credentials);
@@ -89,6 +93,14 @@ export class AuthService implements Login, Logout, TokenManagement {
   private verifyEmail(mailAddress: string): Observable<void> {
     const url = `${AuthService.url}/${mailAddress}/registered`;
     return this.http.get<void>(url);
+  }
+
+  private getRole(token: Token | null): Role {
+    if (token) {
+      return this.roleService.getRole(token);
+    }
+
+    return Role.Unknown;
   }
 }
 

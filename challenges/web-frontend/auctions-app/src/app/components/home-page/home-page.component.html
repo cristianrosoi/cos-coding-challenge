@@ -1,1 +1,6 @@
-<p>home-page works!</p>
+<div class="container">
+  <ng-container *ngIf="role$ | async as role">
+    <p>{{ role }} Homepage</p> 
+    <a *ngIf="role === roles.Buyer" [routerLink]="['/overview']">See running auctions</a>
+  </ng-container>
+</div>

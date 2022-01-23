@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { AuthService } from 'src/app/auth/login/services/auth.service';
+import { RoleService } from './../../core/services/role.service';
+import { Role } from './../../shared/models/roles';
 
 @Component({
   selector: 'app-home-page',
@@ -7,7 +11,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomePageComponent implements OnInit {
 
-  constructor() { }
+  role$: Observable<Role>;
+  roles = Role;
+
+  constructor(private authService: AuthService, private roleService: RoleService) {
+    this.role$ = this.roleService.role$;
+  }
 
   ngOnInit(): void {
   }

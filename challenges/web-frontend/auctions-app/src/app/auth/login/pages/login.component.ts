@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
         })
       )
       .subscribe(
-        () => this.router.navigate(['/overview'])
+        () => this.router.navigate(['/home'])
       );
   }
 
