@@ -1,6 +1,6 @@
-import { takeUntil, switchMap } from 'rxjs/operators';
 import { Component, OnDestroy } from '@angular/core';
-import { interval, Observable, Subject, timer } from 'rxjs';
+import { Observable, Subject, timer } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { AuctionService } from './../../../core/services/auction.service';
 import { Auction } from './../../../shared/models/auction';
 
@@ -11,7 +11,7 @@ import { Auction } from './../../../shared/models/auction';
 })
 export class AuctionsComponent implements OnDestroy {
 
-  private static readonly poolIntervalInSeconds = 20;
+  private static readonly pollIntervalInSeconds = 20;
 
   auction$: Observable<Auction> | null = null;
 
@@ -27,7 +27,7 @@ export class AuctionsComponent implements OnDestroy {
   }
 
   private initAuctions(): void {
-    const source = timer(0, 1000 * AuctionsComponent.poolIntervalInSeconds);
+    const source = timer(0, 1000 * AuctionsComponent.pollIntervalInSeconds);
     source
       .pipe(
         takeUntil(this.unsubscribe),
